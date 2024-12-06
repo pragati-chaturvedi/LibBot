@@ -1,17 +1,5 @@
 from flask import Flask, request, jsonify, render_template
 from lib_bot import chatbot
-from spreadsheet_int import (
-    connect_to_sheet,
-    list_books,
-    search_books,
-    add_book,
-    update_book,
-    remove_book,
-    count_books,
-    check_availability,
-    get_issued_books,
-    get_available_books
-)
 import os
 from dotenv import load_dotenv
 
