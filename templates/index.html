@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Assistant Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f2f2f2;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #chat-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        #chat-log {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            height: 200px;
+        }
+
+        .user-message {
+            color: blue;
+            margin-bottom: 10px;
+        }
+
+        .bot-message {
+            color: green;
+            margin-bottom: 10px;
+        }
+
+        #chat-form input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+
+        #chat-form button {
+            padding: 10px 15px;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        #chat-form button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>LibBot</h1>
+    <div id="chat-container">
+        <div id="chat-log"></div>
+        <form id="chat-form">
+            <input type="text" id="prompt" name="prompt" placeholder="Type your message here..." required>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('chat-form');
+        const chatLog = document.getElementById('chat-log');
+
+        form.onsubmit = async (e) => {
+            e.preventDefault();
+            const promptInput = document.getElementById('prompt');
+            const prompt = promptInput.value.trim();
+            if (!prompt) return;
+
+            // Display user message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'user-message';
+            userMsg.textContent = `You: ${prompt}`;
+            chatLog.appendChild(userMsg);
+
+            // Clear input
+            promptInput.value = '';
+
+            // Send request to the server
+            const response = await fetch('/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt })
+            });
+
+            const data = await response.json();
+
+            // Display bot response
+            const botMsg = document.createElement('div');
+            botMsg.className = 'bot-message';
+            botMsg.innerHTML = `Bot: ${data.response}`;
+            chatLog.appendChild(botMsg);
+
+            // Scroll to the bottom
+            chatLog.scrollTop = chatLog.scrollHeight;
+        };
+    </script>
+</body>
+
+</html>

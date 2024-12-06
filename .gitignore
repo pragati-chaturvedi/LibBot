@@ -1,0 +1,15 @@
+# Ignore environment files
+.env
+google_service_credentials.json
+
+# Ignore Python cache and virtual environment files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.env/
+
+# Ignore IDE settings
+.vscode/
+.idea/
